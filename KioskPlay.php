@@ -37,7 +37,7 @@ const interval = 300000; // ms por imagen
       bottom: 20px;
       right: 30px;
       color: white;
-      font-size: 2em;
+      font-size: 1em;
       font-family: monospace;
       background: rgba(0, 0, 0, 0.2);
       padding: 10px 20px;
@@ -61,7 +61,7 @@ const interval = 300000; // ms por imagen
       const totalSeconds = Math.floor(ms / 1000);
       const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
       const seconds = String(totalSeconds % 60).padStart(2, '0');
-      return `${minutes}:${seconds}`;
+	return `${images[currentIndex-1]} ${currentIndex}/${images.length}  ${minutes}:${seconds}`;
     }
 
     function startCountdown(duration) {
