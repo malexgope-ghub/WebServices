@@ -1,14 +1,16 @@
-
 <?php
 require 'mediaplay_func.php';
 $media = obtenerMedia();
-file_put_contents('media_content.txt', json_encode($media));
+# file_put_contents('media_content.txt', json_encode($media));
 ?>
+<script>
+const img_interval = 9; // sec per image
+</script>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>KioskMedia</title>
+    <title>MediaPlay</title>
 	<link rel="stylesheet" href="style.css">
     style.css
 </head>
@@ -18,8 +20,8 @@ file_put_contents('media_content.txt', json_encode($media));
 
     <script>
     const media = <?php echo json_encode($media, JSON_UNESCAPED_SLASHES); ?>;
-    const interval = 9000; // tiempo para imágenes
     let currentIndex = 0;
+	const interval = img_interval * 1000;
     const slideshow = document.getElementById('slideshow');
     const countdown = document.getElementById('countdown');
 
@@ -91,4 +93,5 @@ file_put_contents('media_content.txt', json_encode($media));
     </script>
 </body>
 </html>
+
 
