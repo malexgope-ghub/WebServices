@@ -1,6 +1,6 @@
 <?php
 require 'mediaplay_func.php';
-$media = obtenerMedia();
+$media = getMedia();
 # file_put_contents('media_content.txt', json_encode($media));
 ?>
 <script>
@@ -93,5 +93,6 @@ const img_interval = 9; // sec per image
     </script>
 </body>
 </html>
+
 
 
