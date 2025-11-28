@@ -1,5 +1,8 @@
 <?php
-function getMedia($folder = 'KIOSK_MEDIA', $imageDuration = 10) {
+$folder = 'KIOSK_MEDIA';
+$imageDuration = 5;
+
+function getMedia($folder, $imageDuration) {
     $imagenes = glob("$folder/*.{jpg,jpeg,png,PNG,gif,bmp,webp}", GLOB_BRACE);
     $videos = glob("$folder/*.{mp4,webm,ogg}", GLOB_BRACE);
 
@@ -23,6 +26,5 @@ function getMedia($folder = 'KIOSK_MEDIA', $imageDuration = 10) {
 }
 
 header('Content-Type: application/json');
-echo json_encode(getMedia());
+echo json_encode(getMedia($folder, $imageDuration));
 ?>
-
