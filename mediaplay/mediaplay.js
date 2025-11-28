@@ -1,69 +1,108 @@
 async function startMediaLoop() {
     try {
-        // 1. Obtener la lista desde el PHP
+        // 1. Obtener lista desde PHP
         const response = await fetch('mediaplay.php');
         const mediaList = await response.json();
+
+        console.log("MEDIA LIST from mediaplay.php:", mediaList);
 
         // 2. Reproducir secuencialmente
         for (let i = 0; i < mediaList.length; i++) {
             const media = mediaList[i];
+            console.log("playing:", media);
             await playMedia(media);
         }
 
-        // 3. Cuando termine, refrescar y volver a empezar
-        startMediaLoop(); // Recursivo
+        // 3. AL TERMINAR TODO EL CICLO → REFRESCAR PÁGINA
+        console.log("reloading website...");
+        location.reload(); 
+
     } catch (error) {
-        console.error('Error cargando medios:', error);
+        console.error('loading error:', error);
     }
 }
 
 function playMedia(media) {
     return new Promise((resolve) => {
-        const container = document.getElementById('media-container');
-        container.innerHTML = ''; // Limpiar contenido anterior
-
+        const container = document.getElementById('slideshow');
+        container.innerHTML = ''; // clear last content
         let element;
+
+        // ----------------------------------------------------
+        //  	IMAGES
+        // ----------------------------------------------------
         if (media.type === 'image') {
+
             element = document.createElement('img');
             element.src = media.file;
-            element.style.width = '100%';
-            element.style.height = '100%';
-            element.style.objectFit = 'cover';
+
             container.appendChild(element);
 
-            // Countdown opcional
             startCountdown(media.duration);
-
             setTimeout(resolve, media.duration * 1000);
-        } else if (media.type === 'video') {
+        }
+
+        // ----------------------------------------------------
+        //  VIDEOS
+        // ----------------------------------------------------
+        else if (media.type === 'video') {
+
             element = document.createElement('video');
             element.src = media.file;
             element.autoplay = true;
-            element.muted = true; // Opcional
-            element.style.width = '100%';
-            element.style.height = '100%';
-            element.style.objectFit = 'cover';
+            element.muted = false;
+
+            element.onerror = () => {
+                console.error("ERROR al cargar el video:", media.file);
+            };
+
             container.appendChild(element);
 
-            // Countdown opcional
-            startCountdown(media.duration);
+            element.addEventListener('loadedmetadata', () => {
+                const duration = Math.floor(element.duration);
+                console.log("video duration:", duration, "segundos");
+                startCountdown(duration);
+            });
 
-            element.onended = resolve; // Cuando termine el video
+            element.onended = () => {
+                console.log("Video terminado:", media.file);
+                resolve();
+            };
         }
     });
 }
 
+// ----------------------------------------------------
+//  TIME COUNTDOWN
+// ----------------------------------------------------
 function startCountdown(seconds) {
     const countdown = document.getElementById('countdown');
-    countdown.textContent = seconds;
 
     let remaining = seconds;
-    const interval = setInterval(() => {
+    countdown.textContent = formatTime(remaining);
+
+    clearInterval(window.countdownInterval);
+
+    window.countdownInterval = setInterval(() => {
         remaining--;
-        countdown.textContent = remaining;
-        if (remaining <= 0) clearInterval(interval);
+
+        if (remaining >= 0) {
+            countdown.textContent = formatTime(remaining);
+        }
+
+        if (remaining <= 0) {
+            clearInterval(window.countdownInterval);
+        }
     }, 1000);
 }
 
-// Iniciar el ciclo
+function formatTime(sec) {
+    const m = Math.floor(sec / 60).toString().padStart(2, '0');
+    const s = (sec % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+}
+
+// ----------------------------------------------------
+//  INICIAR
+// ----------------------------------------------------
 startMediaLoop();
