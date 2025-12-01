@@ -8,6 +8,7 @@ function getMedia($folder, $imageDuration) {
 
     $mediaList = [];
 
+    // Images
     foreach ($imagenes as $img) {
         $mediaList[] = [
             'file' => $img,
@@ -15,6 +16,7 @@ function getMedia($folder, $imageDuration) {
             'duration' => $imageDuration
         ];
     }
+    // Videos
     foreach ($videos as $video) {
         $mediaList[] = [
             'file' => $video,
@@ -25,6 +27,12 @@ function getMedia($folder, $imageDuration) {
     return $mediaList;
 }
 
+$mediaList = getMedia($folder, $imageDuration);
+
+$content = json_encode($mediaList, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+// save json in a file
+//file_put_contents("content.json", $content);
 header('Content-Type: application/json');
-echo json_encode(getMedia($folder, $imageDuration));
+echo $content;
 ?>
