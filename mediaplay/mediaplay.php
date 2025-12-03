@@ -1,5 +1,5 @@
 <?php
-$folder = 'KIOSK_MEDIA';
+$folder = 'FOLDER/WHERE/FILES/ARE/LOCATED';
 $imageDuration = 5;
 
 function getMedia($folder, $imageDuration) {
@@ -36,3 +36,4 @@ $content = json_encode($mediaList, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 header('Content-Type: application/json');
 echo $content;
 ?>
+
