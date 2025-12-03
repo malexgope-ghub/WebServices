@@ -1,6 +1,5 @@
 <?php
 $folder = 'FOLDER/WHERE/FILES/ARE/LOCATED';
-$imageDuration = 5;
 
 function getMedia($folder) {
     $imagenes = glob("$folder/*.{jpg,jpeg,png,PNG,gif,bmp,webp}", GLOB_BRACE);
@@ -35,6 +34,7 @@ $content = json_encode($mediaList, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 header('Content-Type: application/json');
 echo $content;
 ?>
+
 
 
 
