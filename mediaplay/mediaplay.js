@@ -1,5 +1,5 @@
 let VIDEO_MUTED = false;
-let IMG_DURATION = 11;
+let IMG_DURATION = 11;        //seconds
 
 async function startMediaLoop() {
     try {
@@ -114,6 +114,7 @@ function formatTime(sec) {
 //  START
 // ----------------------------------------------------
 startMediaLoop();
+
 
 
 
